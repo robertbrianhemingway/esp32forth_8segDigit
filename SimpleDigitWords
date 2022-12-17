@@ -1,0 +1,23 @@
+( 17Dec22  for ESP32forth )
+: .A  
+: .B
+: .C
+: .D
+: .E
+: .F
+: .G
+
+: one
+: two
+: three
+: four
+: five
+: six
+: seven
+: eight
+: nine
+
+: allSegmentsOn   ( -- )  \ set all except 3.8 to LOW
+;
+: allSegmentsOff  ( -- )  \ set all except 3,8 to HIGH
+;

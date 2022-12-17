@@ -7,17 +7,21 @@
 : .F  ( S9 GP18 ) low 18 pin ;
 : .G  ( S10 GP19 ) low 19 pin ;
 
-: one
-: two
-: three
-: four
-: five
-: six
-: seven
-: eight
-: nine
+: one  ( -- ) allSegmentsOff .c .b ;
+: two  ( -- ) allSegmentsOff .a .b .g .e .d ;
+: three  ( -- ) allSegmentsOff .a .b .g .c .d ;
+: four  ( -- ) allSegmentsOff .f .g .b .c ;
+: five  ( -- ) allSegmentsOff .a .f .g .c .d ;
+: six  ( -- ) allSegmentsOff .a .f .e .d .c .g ;
+: seven  ( -- ) allSegmentsOff .a .b .c ;
+: eight  ( -- ) allSegmentsOn ;
+: nine  ( -- ) allSegmentsOff .a .f .g .b .c ; 
 
-: allSegmentsOn   ( -- )  \ set all except 3.8 to LOW
-;
+: setPinHigh  ( n -- ) high digitalWrite ;
+: setPinLow   ( n -- ) low  digitalWrite ;  
 : allSegmentsOff  ( -- )  \ set all except 3,8 to HIGH
+  20 13 DO I setPinHigh LOOP ;
+;
+: allSegmentsOn   ( -- )  \ set all except 3.8 to LOW
+  20 13 DO I setPinLow LOOP ;
 ;

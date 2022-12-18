@@ -1,5 +1,8 @@
 ( more elegant 8 seg words )
 
+0 value numsAdr
+0 value gpiosAdr
+
 : makeNumbers create   ( -- )
   ( bit patterns for digits 0 to 9 corresponding to segments 1-8 in sequence )
   ( Top=bit 7 TL=6 BL=5 B=4 BR=3 TR=2 M=1 Pt=0 )
@@ -17,11 +20,16 @@
 
 : DecodeBitPattern  ( bp -- )
   ( look at each of the 8 bits which map to 1 of 8 GPIO pins )
-  
+  8 0 DO I          \ bp I  
+         getBitAtI  \ t|f
+		 
+      LOOP		 
 ;  
   
 makeNumbers nums
 makeGPIOList gpios
+nums to numsAdr
+gpios to gpiosAdr
 
 : .1  ( -- )
   1 getBitPattern   \ bp

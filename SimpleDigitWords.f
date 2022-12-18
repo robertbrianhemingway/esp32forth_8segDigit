@@ -35,3 +35,13 @@
 : allSegmentsOn   ( -- )  \ set all except 3.8 to LOW
   20 13 DO I setPinLow LOOP ;
 ;
+
+: setup ( -- )
+  20 13 DO I OUTPUT pinMode Loop ;
+  cr ." GPOI pins 13 to 19 set to OUTPUT"
+  allSegmentsOn
+  1000 ms
+  allSegmentsOff
+;
+
+setup

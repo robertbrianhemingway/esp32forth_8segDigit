@@ -7,6 +7,15 @@
 : .F  ( S9 GP18 ) low 18 pin ;
 : .G  ( S10 GP19 ) low 19 pin ;
 
+: setPinHigh  ( n -- ) high digitalWrite ;
+: setPinLow   ( n -- ) low  digitalWrite ;  
+: allSegmentsOff  ( -- )  \ set all except 3,8 to HIGH
+  20 13 DO I setPinHigh LOOP 
+;
+: allSegmentsOn   ( -- )  \ set all except 3.8 to LOW
+  20 13 DO I setPinLow LOOP 
+;
+
 : one  ( -- ) allSegmentsOff .c .b ;
 : two  ( -- ) allSegmentsOff .a .b .g .e .d ;
 : three  ( -- ) allSegmentsOff .a .b .g .c .d ;
@@ -16,6 +25,7 @@
 : seven  ( -- ) allSegmentsOff .a .b .c ;
 : eight  ( -- ) allSegmentsOn ;
 : nine  ( -- ) allSegmentsOff .a .f .g .b .c ; 
+: zero ( -- ) allSegmentsOff .c .b .f .e .a .d ;
 
 : .1 ( -- ) one ;
 : .2 two ;
@@ -26,22 +36,41 @@
 : .7 seven ;
 : .8 eight ;
 : .9 nine ;
-
-: setPinHigh  ( n -- ) high digitalWrite ;
-: setPinLow   ( n -- ) low  digitalWrite ;  
-: allSegmentsOff  ( -- )  \ set all except 3,8 to HIGH
-  20 13 DO I setPinHigh LOOP 
-;
-: allSegmentsOn   ( -- )  \ set all except 3.8 to LOW
-  20 13 DO I setPinLow LOOP 
-;
+: .0 zero ;
+: ./ ( -- ) allSegmentsOff ;
+: .// ( -- ) allSegmentsOn ;
 
 : setup ( -- )
-  20 13 DO I OUTPUT pinMode Loop ;
+  20 13 DO I OUTPUT pinMode Loop 
   cr ." GPOI pins 13 to 19 set to OUTPUT"
   allSegmentsOn
   1000 ms
   allSegmentsOff
 ;
 
+500 value delayMs
+: delay delayMs ms ;
+
+: cycle ( -- )
+  .0 delay
+  .1 delay
+  .2 delay
+  .3 delay
+  .4 delay
+  .5 delay
+  .6 delay
+  .7 delay
+  .8 delay
+  .9 delay
+;
+
+: demo  ( -- )
+  5 0 DO
+    500 to delayMs cycle
+    100  to delayMs cycle  
+  LOOP
+  allSegmentsOff
+;  
+
 setup
+demo

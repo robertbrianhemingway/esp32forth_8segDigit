@@ -1,6 +1,7 @@
 ( more elegant 8 seg words )
 
 0 value numsAdr
+0 value alphaAdr
 0 value gpiosAdr
 
 : makeNumbers create   ( -- )
@@ -13,10 +14,17 @@
   ( Pos 0=GPIO20 ie Pt, 1=19 ie middle segment ... 7=13 ie Top segment )
   20 c, 19 c, 14 c, 15 c, 16 c, 17 c, 18 c, 13 c, 
 ;
+: makeAlphas create  ( -- )
+  $ee.3
+  c, $fe c, $f0 c,  ( A B C )
+;  
 
 : getBitPattern  ( n -- bp   where 0<=n<=9 and bp is bit pattern )
   numsAdr + c@
 ;
+: getAlphaBitPattern  ( n -- bp )
+  alphaAdr + c@
+;  
 
 : decodeIthBit  ( bp I -- bp )
   ( save bp, get Ith bit in bp, get Ith GPIOpin, set pin )
@@ -45,51 +53,32 @@
 		  I low digitalWrite 200 ms
 		  I high digitalWrite 200 ms
         LOOP
-;		
-  
+;
+
+: allOFF  ( -- ) 20 13 DO I high digitalWrite LOOP ;   \ using GPIO pins 13 to 19
+: allON   ( -- ) 20 13 DO I low  digitalWrite LOOP ;
+
+( make bit pattern byte arrays )  
 makeNumbers nums
 makeGPIOList gpios
+makeAlphas alphas
+( store array addresses )
 nums to numsAdr
 gpios to gpiosAdr
+alphas to alphaAdr
+( set GPIO pints to OUTPUT )
 setGPIOModes
 
-: .0  ( -- )
-  0 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .1  ( -- )
-  1 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .2  ( -- )
-  2 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .3  ( -- )
-  3 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .4  ( -- )
-  4 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .5  ( -- )
-  5 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .6  ( -- )
-  6 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .7  ( -- )
-  7 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .8  ( -- )
-  8 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
-: .9  ( -- )
-  9 getBitPattern   \ bp
-  DecodeBitPattern  \ --
-; 
+: .0 0 getBitPattern DecodeBitPattern ;
+: .1 1 getBitPattern DecodeBitPattern ; 
+: .2 2 getBitPattern DecodeBitPattern ; 
+: .3 3 getBitPattern DecodeBitPattern ; 
+: .4 4 getBitPattern DecodeBitPattern ; 
+: .5 5 getBitPattern DecodeBitPattern ; 
+: .6 6 getBitPattern DecodeBitPattern ; 
+: .7 7 getBitPattern DecodeBitPattern ; 
+: .8 8 getBitPattern DecodeBitPattern ; 
+: .9 9 getBitPattern DecodeBitPattern ; 
+: .A 0 getAlphaBitPattern DecodeBitPattern ;
+: .B 1 getAlphaBitPattern DecodeBitPattern ;
+: .C 2 getAlphaBitPattern DecodeBitPattern ;

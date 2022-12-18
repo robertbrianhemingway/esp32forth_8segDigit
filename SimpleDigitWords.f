@@ -30,10 +30,10 @@
 : setPinHigh  ( n -- ) high digitalWrite ;
 : setPinLow   ( n -- ) low  digitalWrite ;  
 : allSegmentsOff  ( -- )  \ set all except 3,8 to HIGH
-  20 13 DO I setPinHigh LOOP ;
+  20 13 DO I setPinHigh LOOP 
 ;
 : allSegmentsOn   ( -- )  \ set all except 3.8 to LOW
-  20 13 DO I setPinLow LOOP ;
+  20 13 DO I setPinLow LOOP 
 ;
 
 : setup ( -- )

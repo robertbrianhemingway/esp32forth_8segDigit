@@ -15,8 +15,8 @@
   20 c, 19 c, 14 c, 15 c, 16 c, 17 c, 18 c, 13 c, 
 ;
 : makeAlphas create  ( -- )
-  $ee.3
-  c, $fe c, $f0 c,  ( A B C )
+  $ee c, $fe c, $f0 c, $fc c, $f2 c, $e2 c,  
+  ( A B C D E F  for hex numbers)
 ;  
 
 : getBitPattern  ( n -- bp   where 0<=n<=9 and bp is bit pattern )
@@ -69,16 +69,21 @@ alphas to alphaAdr
 ( set GPIO pints to OUTPUT )
 setGPIOModes
 
-: .0 0 getBitPattern DecodeBitPattern ;
-: .1 1 getBitPattern DecodeBitPattern ; 
-: .2 2 getBitPattern DecodeBitPattern ; 
-: .3 3 getBitPattern DecodeBitPattern ; 
-: .4 4 getBitPattern DecodeBitPattern ; 
-: .5 5 getBitPattern DecodeBitPattern ; 
-: .6 6 getBitPattern DecodeBitPattern ; 
-: .7 7 getBitPattern DecodeBitPattern ; 
-: .8 8 getBitPattern DecodeBitPattern ; 
-: .9 9 getBitPattern DecodeBitPattern ; 
-: .A 0 getAlphaBitPattern DecodeBitPattern ;
-: .B 1 getAlphaBitPattern DecodeBitPattern ;
-: .C 2 getAlphaBitPattern DecodeBitPattern ;
+: .digit ( n -- ) getBitPattern DecodeBitPattern ; 
+: .0 0  .digit ;
+: .1 1  .digit ; 
+: .2 2  .digit ; 
+: .3 3  .digit ; 
+: .4 4  .digit ; 
+: .5 5  .digit ; 
+: .6 6  .digit ; 
+: .7 7  .digit ;
+: .8 8  .digit ; 
+: .9 9  .digit ; 
+: .alpha ( n -- ) getAlphaBitPattern DecodeBitPattern ; 
+: .A 0 .alpha ;
+: .B 1 .alpha ;
+: .C 2 .alpha ;
+: .D 3 .alpha ;
+: .E 4 .alpha ;
+: .F 5 .alpha ;

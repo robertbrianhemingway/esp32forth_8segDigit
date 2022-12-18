@@ -14,24 +14,82 @@
   20 c, 19 c, 14 c, 15 c, 16 c, 17 c, 18 c, 13 c, 
 ;
 
-: getBitPattern  ( n addr -- bp   where 0<=n<=9 and bp is bit pattern )
-  + c@
+: getBitPattern  ( n -- bp   where 0<=n<=9 and bp is bit pattern )
+  numsAdr + c@
+;
+
+: decodeIthBit  ( bp I -- bp )
+  ( save bp, get Ith bit in bp, get Ith GPIOpin, set pin )
+  2dup             \ bp I bp I
+  1 swap           \ bp I bp 1 I
+  lshift and       \ bp I t|f
+  0=               \ bp I f|t  as a Low is ON for segment
+  ( now find Ith GPIO pin )
+  swap             \ bp t|f I
+  gpiosAdr + c@    \ bp t|f pin#
+  swap digitalWrite \ bp
 ;
 
 : DecodeBitPattern  ( bp -- )
   ( look at each of the 8 bits which map to 1 of 8 GPIO pins )
-  8 0 DO I          \ bp I  
-         getBitAtI  \ t|f
-		 
-      LOOP		 
+  ( bit 0 is pt, bit 7 is top segment )
+  8 0 DO I          \ bp I  where I is both bit position and gpio index in GPIOList 
+        decodeIthBit   ( bp I -- bp )
+      LOOP
+	  drop          \ drop bp
 ;  
+  
+: setGPIOModes  ( -- )
+  20 13 DO
+          I OUTPUT pinMode
+		  I low digitalWrite 200 ms
+		  I high digitalWrite 200 ms
+        LOOP
+;		
   
 makeNumbers nums
 makeGPIOList gpios
 nums to numsAdr
 gpios to gpiosAdr
+setGPIOModes
 
+: .0  ( -- )
+  0 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 
 : .1  ( -- )
   1 getBitPattern   \ bp
   DecodeBitPattern  \ --
-;  
+; 
+: .2  ( -- )
+  2 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 
+: .3  ( -- )
+  3 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 
+: .4  ( -- )
+  4 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 
+: .5  ( -- )
+  5 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 
+: .6  ( -- )
+  6 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 
+: .7  ( -- )
+  7 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 
+: .8  ( -- )
+  8 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 
+: .9  ( -- )
+  9 getBitPattern   \ bp
+  DecodeBitPattern  \ --
+; 

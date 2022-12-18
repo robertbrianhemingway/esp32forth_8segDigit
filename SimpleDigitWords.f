@@ -16,6 +16,7 @@
 : seven  ( -- ) allSegmentsOff .a .b .c ;
 : eight  ( -- ) allSegmentsOn ;
 : nine  ( -- ) allSegmentsOff .a .f .g .b .c ; 
+: zero ( -- ) allSegmentsOff .c .b .f .e .g ;
 
 : .1 ( -- ) one ;
 : .2 two ;
@@ -26,6 +27,7 @@
 : .7 seven ;
 : .8 eight ;
 : .9 nine ;
+: .0 zero ;
 
 : setPinHigh  ( n -- ) high digitalWrite ;
 : setPinLow   ( n -- ) low  digitalWrite ;  

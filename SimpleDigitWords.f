@@ -16,7 +16,7 @@
 : seven  ( -- ) allSegmentsOff .a .b .c ;
 : eight  ( -- ) allSegmentsOn ;
 : nine  ( -- ) allSegmentsOff .a .f .g .b .c ; 
-: zero ( -- ) allSegmentsOff .c .b .f .e .g ;
+: zero ( -- ) allSegmentsOff .c .b .f .e .a .d ;
 
 : .1 ( -- ) one ;
 : .2 two ;
